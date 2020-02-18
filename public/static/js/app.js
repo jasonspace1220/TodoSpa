@@ -22088,7 +22088,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-card",
-    { attrs: { color: "grey lighten-4", flat: "", tile: "" } },
+    { attrs: { color: "grey lighten-4", flat: "", height: "200px", tile: "" } },
     [
       _c(
         "v-toolbar",
