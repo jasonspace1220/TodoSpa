@@ -19,7 +19,7 @@ class CorsMiddleware
         $response = $next( $request );
         $response->header( 'Access-Control-Allow-Origin', '*' );
         $response->header( 'Access-Control-Allow-Headers', 'Origin, Content-Type' );
-
+        $response->header( 'Access-Control-Expose-Headers', 'Access-Token, Uid' );
         return $response;
     }
 }
