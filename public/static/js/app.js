@@ -3881,6 +3881,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3924,7 +3946,11 @@ __webpack_require__.r(__webpack_exports__);
         fat: 0,
         carbs: 0,
         protein: 0
-      }
+      },
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      time: null,
+      menu2: false
     };
   },
   computed: {
@@ -3939,6 +3965,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.initialize();
+    this.Gettime();
   },
   methods: {
     initialize: function initialize() {
@@ -3951,6 +3978,9 @@ __webpack_require__.r(__webpack_exports__);
         /* 失敗，發生錯誤，然後...*/
         console.log(e);
       });
+    },
+    Gettime: function Gettime() {
+      this.time = new Date().getHours() + ':' + new Date().getMinutes();
     },
     editItem: function editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
@@ -3981,13 +4011,13 @@ __webpack_require__.r(__webpack_exports__);
           }
         }).then(function (response) {
           /* 成功拿到資料，然後... */
-          // console.log(response);
           that.close();
         })["catch"](function (e) {
           /* 失敗，發生錯誤，然後...*/
           console.log(e);
         });
       } else {
+        //新增資料
         this.desserts.push(this.editedItem);
         that.close();
       } // this.close()
@@ -23100,20 +23130,175 @@ var render = function() {
                                         attrs: { cols: "12", sm: "6", md: "4" }
                                       },
                                       [
-                                        _c("v-text-field", {
-                                          attrs: { label: "ID" },
-                                          model: {
-                                            value: _vm.editedItem.id,
-                                            callback: function($$v) {
-                                              _vm.$set(
-                                                _vm.editedItem,
-                                                "id",
-                                                $$v
-                                              )
+                                        _c(
+                                          "v-menu",
+                                          {
+                                            attrs: {
+                                              "close-on-content-click": false,
+                                              "nudge-right": 0,
+                                              transition: "scale-transition",
+                                              "offset-y": "",
+                                              "min-width": "290px"
                                             },
-                                            expression: "editedItem.id"
-                                          }
-                                        })
+                                            scopedSlots: _vm._u([
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  return [
+                                                    _c(
+                                                      "v-text-field",
+                                                      _vm._g(
+                                                        {
+                                                          attrs: {
+                                                            label: "預計日期",
+                                                            readonly: ""
+                                                          },
+                                                          model: {
+                                                            value: _vm.date,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.date = $$v
+                                                            },
+                                                            expression: "date"
+                                                          }
+                                                        },
+                                                        on
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ]),
+                                            model: {
+                                              value: _vm.menu,
+                                              callback: function($$v) {
+                                                _vm.menu = $$v
+                                              },
+                                              expression: "menu"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _c("v-date-picker", {
+                                              attrs: { locale: "zh-tw" },
+                                              on: {
+                                                input: function($event) {
+                                                  _vm.menu = false
+                                                }
+                                              },
+                                              model: {
+                                                value: _vm.date,
+                                                callback: function($$v) {
+                                                  _vm.date = $$v
+                                                },
+                                                expression: "date"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-col",
+                                      {
+                                        attrs: { cols: "12", sm: "6", md: "4" }
+                                      },
+                                      [
+                                        _c(
+                                          "v-menu",
+                                          {
+                                            ref: "menu",
+                                            attrs: {
+                                              "close-on-content-click": false,
+                                              "nudge-right": 0,
+                                              "return-value": _vm.time,
+                                              transition: "scale-transition",
+                                              "offset-y": "",
+                                              "max-width": "290px",
+                                              "min-width": "290px"
+                                            },
+                                            on: {
+                                              "update:returnValue": function(
+                                                $event
+                                              ) {
+                                                _vm.time = $event
+                                              },
+                                              "update:return-value": function(
+                                                $event
+                                              ) {
+                                                _vm.time = $event
+                                              }
+                                            },
+                                            scopedSlots: _vm._u([
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  return [
+                                                    _c(
+                                                      "v-text-field",
+                                                      _vm._g(
+                                                        {
+                                                          attrs: {
+                                                            label: "預計時間",
+                                                            readonly: ""
+                                                          },
+                                                          model: {
+                                                            value: _vm.time,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.time = $$v
+                                                            },
+                                                            expression: "time"
+                                                          }
+                                                        },
+                                                        on
+                                                      )
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ]),
+                                            model: {
+                                              value: _vm.menu2,
+                                              callback: function($$v) {
+                                                _vm.menu2 = $$v
+                                              },
+                                              expression: "menu2"
+                                            }
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _vm.menu2
+                                              ? _c("v-time-picker", {
+                                                  attrs: { "full-width": "" },
+                                                  on: {
+                                                    "click:minute": function(
+                                                      $event
+                                                    ) {
+                                                      return _vm.$refs.menu.save(
+                                                        _vm.time
+                                                      )
+                                                    }
+                                                  },
+                                                  model: {
+                                                    value: _vm.time,
+                                                    callback: function($$v) {
+                                                      _vm.time = $$v
+                                                    },
+                                                    expression: "time"
+                                                  }
+                                                })
+                                              : _vm._e()
+                                          ],
+                                          1
+                                        )
                                       ],
                                       1
                                     ),

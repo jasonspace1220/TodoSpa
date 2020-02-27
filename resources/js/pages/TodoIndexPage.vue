@@ -18,8 +18,29 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="6" md="4">
-                                        <v-text-field v-model="editedItem.id" label="ID"></v-text-field>
+                                        <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="0"
+                                            transition="scale-transition" offset-y min-width="290px">
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field v-model="date" label="預計日期"
+                                                     readonly v-on="on"></v-text-field>
+                                            </template>
+                                            <v-date-picker locale="zh-tw" v-model="date" @input="menu = false"></v-date-picker>
+                                        </v-menu>
                                     </v-col>
+
+                                    <v-col cols="12" sm="6" md="4">
+                                        <v-menu ref="menu" v-model="menu2" :close-on-content-click="false"
+                                            :nudge-right="0" :return-value.sync="time" transition="scale-transition"
+                                            offset-y max-width="290px" min-width="290px">
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field v-model="time" label="預計時間" readonly v-on="on">
+                                                </v-text-field>
+                                            </template>
+                                            <v-time-picker v-if="menu2" v-model="time" full-width
+                                                @click:minute="$refs.menu.save(time)"></v-time-picker>
+                                        </v-menu>
+                                    </v-col>
+
                                     <v-col cols="12" sm="6" md="4">
                                         <v-text-field v-model="editedItem.title" label="項目"></v-text-field>
                                     </v-col>
@@ -28,6 +49,7 @@
                                     </v-col>
                                     <v-col cols="12" sm="6" md="4">
                                         <v-text-field v-model="editedItem.scheduled_time" label="預計時間"></v-text-field>
+
                                     </v-col>
                                     <v-col cols="12" sm="6" md="4">
                                         <v-text-field v-model="editedItem.state" label="狀態"></v-text-field>
@@ -110,6 +132,10 @@
                 carbs: 0,
                 protein: 0,
             },
+            date: new Date().toISOString().substr(0, 10),
+            menu: false,
+            time: null,
+            menu2: false,
         }),
 
         computed: {
@@ -125,7 +151,8 @@
         },
 
         created() {
-            this.initialize()
+            this.initialize();
+            this.Gettime();
         },
 
         methods: {
@@ -142,7 +169,9 @@
                         console.log(e);
                     });
             },
-
+            Gettime() {
+                this.time = new Date().getHours() + ':' + new Date().getMinutes();
+            },
             editItem(item) {
                 this.editedIndex = this.desserts.indexOf(item)
                 this.editedItem = Object.assign({}, item)
@@ -167,22 +196,21 @@
                     var that = this;
                     Object.assign(this.desserts[this.editedIndex], this.editedItem)
                     //修改更新
-                    axios.put('/todo/'+this.editedItem.id, this.editedItem, {
+                    axios.put('/todo/' + this.editedItem.id, this.editedItem, {
                             headers: {
                                 "X-CSRF-TOKEN": document.querySelectorAll('[name="csrf-token"]')[0].content
                             }
                         })
                         .then(function (response) {
                             /* 成功拿到資料，然後... */
-                            // console.log(response);
                             that.close()
-
                         })
                         .catch(function (e) {
                             /* 失敗，發生錯誤，然後...*/
                             console.log(e);
                         });
                 } else {
+                    //新增資料
                     this.desserts.push(this.editedItem)
                     that.close()
                 }
