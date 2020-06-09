@@ -10,7 +10,7 @@ use JWTAuth;
 
 class AuthController extends Controller
 {
-
+    //
     public function register(RegisterFormRequest $request)
     {
         $user = new User;

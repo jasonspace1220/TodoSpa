@@ -75,8 +75,12 @@
                         email: app.email,
                         password: app.password
                     },
-                    success: function () {},
-                    error: function () {},
+                    success: function () {
+
+                    },
+                    error: function () {
+                        this.overlay = false;
+                    },
                     rememberMe: true,
                     redirect: '/dashboard',
                     fetchUser: true,
